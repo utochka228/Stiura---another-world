@@ -8,15 +8,13 @@ public static class Noise {
 
         System.Random prng = new System.Random(seed);
         Vector2[] octaveOffset = new Vector2[octaves];
-        for (int i = 0; i < octaves; i++)
-        {
+        for (int i = 0; i < octaves; i++){
             float offsetX = prng.Next(-100000, 100000) + offset.x;
             float offsetY = prng.Next(-100000, 100000) + offset.y;
             octaveOffset[i] = new Vector2(offsetX, offsetY);
         }
 
-        if(scale <= 0)
-        {
+        if(scale <= 0){
             scale = 0.0001f;
         }
 
@@ -26,16 +24,13 @@ public static class Noise {
         float halfWidth = mapWidth / 2f;
         float halfHeight = mapHeight / 2f;
 
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapWidth; x++)
-            {
+        for (int y = 0; y < mapHeight; y++){
+            for (int x = 0; x < mapWidth; x++){
                 float amplitude = 1;
                 float frequency = 1;
                 float noiseHeight = 0;
 
-                for (int i = 0; i < octaves; i++)
-                {
+                for (int i = 0; i < octaves; i++){
                     float SampleX = (x-halfWidth) / scale * frequency + octaveOffset[i].x;
                     float SampleY = (y-halfHeight) / scale * frequency + octaveOffset[i].y;
 
@@ -46,22 +41,18 @@ public static class Noise {
                     frequency *= lacunarity;
                 }
 
-                if(noiseHeight > maxNoiseHeight)
-                {
+                if(noiseHeight > maxNoiseHeight) {
                     maxNoiseHeight = noiseHeight;
                 }
-                else if (noiseHeight < minNoiseHeight)
-                {
+                else if (noiseHeight < minNoiseHeight){
                     minNoiseHeight = noiseHeight;
                 }
                 noiseMap[x, y] = noiseHeight;
             }
         }
-
-        for (int y = 0; y < mapHeight; y++)
-        {
-            for (int x = 0; x < mapWidth; x++)
-            {
+//xyi
+        for (int y = 0; y < mapHeight; y++){
+            for (int x = 0; x < mapWidth; x++){
                 noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
             }
         }
